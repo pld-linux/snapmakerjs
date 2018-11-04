@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Snapmakerjs
+Comment=Snapmaker 3-in-1 Software for 3D Printing, Laser Engraving and CNC Cutting.
+Exec=/usr/bin/snapmakerjs %U
+Terminal=false
+Type=Application
+Icon=snapmakerjs
+Categories=Utility;
