@@ -1,13 +1,13 @@
 Summary:	Snapmaker 3-in-1 Software for 3D Printing, Laser Engraving and CNC Cutting
 Name:		snapmakerjs
-Version:	2.4.5
-Release:	2
+Version:	2.4.6
+Release:	1
 License:	MIT
 Group:		Applications
 Source0:	https://s3-us-west-2.amazonaws.com/snapmaker.com/download/snapmakerjs/%{name}-%{version}-linux-x64.tar.gz
-# Source0-md5:	73b5e97f2791764df657a97ca1008e83
+# Source0-md5:	cf936afda42bb1df344d62d5912d8e17
 Source1:	https://s3-us-west-2.amazonaws.com/snapmaker.com/download/snapmakerjs/%{name}-%{version}-linux-ia32.tar.gz
-# Source1-md5:	e22b5145be562128cc9c7acbb18fd462
+# Source1-md5:	e463d0b8d5440e6b6a4e22b445e08520
 Source2:	%{name}.desktop
 Source3:	%{name}.png
 URL:		https://snapmaker.com/
@@ -33,7 +33,7 @@ and CNC Cutting.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_libdir}/%{name},%{_bindir},%{_desktopdir}} \
+install -d $RPM_BUILD_ROOT{%{_libdir}/%{name},%{_bindir},%{_desktopdir},/etc/snapmakerjs} \
 	$RPM_BUILD_ROOT{%{_iconsdir}/hicolor/256x256/apps,/var/lib/snapmakerjs/_cache}
 
 cp -a * $RPM_BUILD_ROOT%{_libdir}/%{name}
@@ -41,6 +41,10 @@ ln -s %{_libdir}/%{name}/%{name} $RPM_BUILD_ROOT%{_bindir}/%{name}
 
 %{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/resources/app/web/images/_cache
 ln -s /var/lib/snapmakerjs/_cache $RPM_BUILD_ROOT%{_libdir}/%{name}/resources/app/web/images/_cache
+
+%{__mv} $RPM_BUILD_ROOT%{_libdir}/snapmakerjs/resources/app/CuraEngine/Config \
+	$RPM_BUILD_ROOT/etc/snapmakerjs/CuraEngine
+ln -s /etc/snapmakerjs/CuraEngine $RPM_BUILD_ROOT%{_libdir}/snapmakerjs/resources/app/CuraEngine/Config
 
 for i in 16 24 32 48 64 96 128 ; do
   install -d $RPM_BUILD_ROOT%{_iconsdir}/hicolor/${i}x${i}/apps
@@ -54,15 +58,28 @@ cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_iconsdir}/hicolor/256x256/apps
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%pre
+%groupadd -g 184 snapmaker
+
 %post
 %update_icon_cache hicolor
 
+%banner %{name} <<-EOF
+You need to be a member of snapmaker group to use all features of the program!
+EOF
+
 %postun
+if [ "$1" = "0" ]; then
+       %groupremove snapmaker
+fi
 %update_icon_cache hicolor
 
 %files
 %defattr(644,root,root,755)
 %doc LICENSE.electron.txt LICENSES.chromium.html
+%dir /etc/snapmakerjs
+%dir %attr(775,root,snapmaker) /etc/snapmakerjs/CuraEngine
+%attr(664,root,snapmaker) %config %verify(not md5 mtime size) /etc/snapmakerjs/CuraEngine/*
 %attr(755,root,root) %{_bindir}/%{name}*
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/locales
