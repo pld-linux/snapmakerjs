@@ -1,13 +1,13 @@
 Summary:	Snapmaker 3-in-1 Software for 3D Printing, Laser Engraving and CNC Cutting
 Name:		snapmakerjs
-Version:	2.4.6
+Version:	2.5.4
 Release:	1
 License:	MIT
 Group:		Applications
 Source0:	https://s3-us-west-2.amazonaws.com/snapmaker.com/download/snapmakerjs/%{name}-%{version}-linux-x64.tar.gz
-# Source0-md5:	cf936afda42bb1df344d62d5912d8e17
+# Source0-md5:	7354bc4975732e4dfdc9d1aa9dc64643
 Source1:	https://s3-us-west-2.amazonaws.com/snapmaker.com/download/snapmakerjs/%{name}-%{version}-linux-ia32.tar.gz
-# Source1-md5:	e463d0b8d5440e6b6a4e22b445e08520
+# Source1-md5:	bcf59cafd4ef964fc7034282aea62d37
 Source2:	%{name}.desktop
 Source3:	%{name}.png
 URL:		https://snapmaker.com/
@@ -94,9 +94,9 @@ fi
 %{_libdir}/snapmakerjs/resources/app/*.json
 %dir %{_libdir}/snapmakerjs/resources/app/CuraEngine
 %{_libdir}/snapmakerjs/resources/app/CuraEngine/Config
-%dir %{_libdir}/snapmakerjs/resources/app/CuraEngine/2.7
-%dir %{_libdir}/snapmakerjs/resources/app/CuraEngine/2.7/Linux-x64
-%attr(755,root,root) %{_libdir}/snapmakerjs/resources/app/CuraEngine/2.7/Linux-x64/CuraEngine
+%dir %{_libdir}/snapmakerjs/resources/app/CuraEngine/3.6
+%dir %{_libdir}/snapmakerjs/resources/app/CuraEngine/3.6/Linux
+%attr(755,root,root) %{_libdir}/snapmakerjs/resources/app/CuraEngine/3.6/Linux/CuraEngine
 %{_libdir}/%{name}/*.dat
 %{_libdir}/%{name}/*.bin
 %{_libdir}/%{name}/*.pak
