@@ -57,6 +57,9 @@ rm -rf $RPM_BUILD_ROOT
 %postun
 %update_icon_cache hicolor
 
+%triggerpostun -- snapmakerjs < 2.6.1-1
+%groupremove snapmaker
+
 %files
 %defattr(644,root,root,755)
 %doc LICENSE.electron.txt LICENSES.chromium.html
