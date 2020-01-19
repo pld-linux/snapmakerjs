@@ -1,13 +1,13 @@
 Summary:	Snapmaker 3-in-1 Software for 3D Printing, Laser Engraving and CNC Cutting
 Name:		snapmakerjs
-Version:	2.6.1
+Version:	2.7.1
 Release:	1
 License:	MIT
 Group:		Applications
 Source0:	https://s3-us-west-2.amazonaws.com/snapmaker.com/download/snapmakerjs/%{name}-%{version}-linux-x64.tar.gz
-# Source0-md5:	d73263375129a4645b7143458153955e
+# Source0-md5:	f4b1e550664f7f8e4da2e29ab1f0c4ff
 Source1:	https://s3-us-west-2.amazonaws.com/snapmaker.com/download/snapmakerjs/%{name}-%{version}-linux-ia32.tar.gz
-# Source1-md5:	e41e89a361cdec177083d6a179477be1
+# Source1-md5:	928e0cb876b5f855b9147dacf00b8922
 Source2:	%{name}.desktop
 Source3:	%{name}.png
 URL:		https://snapmaker.com/
@@ -16,6 +16,7 @@ ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		no_install_post_strip	1
+%define		no_install_post_check_shebangs	1
 %define		_enable_debug_packages	0
 
 %description
@@ -47,6 +48,9 @@ done
 
 cp -a %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_iconsdir}/hicolor/256x256/apps
+
+# _install_post_check_shebangs can't cope with filenames with spaces
+find $RPM_BUILD_ROOT -name "Apache License.txt" -print0 | xargs -0 %{__rm}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
