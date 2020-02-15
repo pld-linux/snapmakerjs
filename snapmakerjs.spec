@@ -1,18 +1,16 @@
 Summary:	Snapmaker 3-in-1 Software for 3D Printing, Laser Engraving and CNC Cutting
 Name:		snapmakerjs
 Version:	2.7.1
-Release:	2
+Release:	3
 License:	MIT
 Group:		Applications
 Source0:	https://s3-us-west-2.amazonaws.com/snapmaker.com/download/snapmakerjs/%{name}-%{version}-linux-x64.tar.gz
 # Source0-md5:	f4b1e550664f7f8e4da2e29ab1f0c4ff
-Source1:	https://s3-us-west-2.amazonaws.com/snapmaker.com/download/snapmakerjs/%{name}-%{version}-linux-ia32.tar.gz
-# Source1-md5:	928e0cb876b5f855b9147dacf00b8922
 Source2:	%{name}.desktop
 Source3:	%{name}.png
 URL:		https://snapmaker.com/
 BuildRequires:	ImageMagick
-ExclusiveArch:	%{ix86} %{x8664}
+ExclusiveArch:	%{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		no_install_post_strip	1
@@ -24,12 +22,7 @@ Snapmaker 3-in-1 Software for 3D Printing, Laser Engraving and CNC
 Cutting.
 
 %prep
-%ifarch %{x8664}
 %setup -q -T -b0 -n %{name}-%{version}-linux-x64
-%endif
-%ifarch %{ix86}
-%setup -q -T -b1 -n %{name}-%{version}-linux-ia32
-%endif
 
 %build
 
